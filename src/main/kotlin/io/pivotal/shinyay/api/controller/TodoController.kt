@@ -1,6 +1,7 @@
 package io.pivotal.shinyay.api.controller
 
 import io.pivotal.shinyay.api.data.Todo
+import io.pivotal.shinyay.api.data.TodoDTO
 import io.pivotal.shinyay.api.service.TodoService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
@@ -17,13 +18,13 @@ class TodoController {
     @GetMapping(
             produces = arrayOf(MediaType.APPLICATION_JSON_VALUE)
     )
-    fun getTodos() : List<Todo> = service.getTodo()
+    fun getTodos() = service.getTodos()
 
     @PutMapping(
             produces = arrayOf(MediaType.APPLICATION_JSON_VALUE),
             consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE)
     )
-    fun insertTodo(@RequestBody todo: Todo) = service.insertTodo(todo)
+    fun insertTodo(@RequestBody todo: TodoDTO) = service.insertTodo(todo)
 
     @DeleteMapping(
             value = "/{id}",
@@ -35,5 +36,13 @@ class TodoController {
             produces = arrayOf(MediaType.APPLICATION_JSON_VALUE),
             consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE)
     )
-    fun updateTodo(@RequestBody todo: Todo) = service.updateTodo(todo)
+    fun updateTodo(@RequestBody todo: TodoDTO) = service.updateTodo(todo)
+
+    @PostMapping(
+            value = "/later_than",
+            produces = arrayOf(MediaType.APPLICATION_JSON_VALUE),
+            consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE)
+    )
+    fun getTodosLaterThan(@RequestBody payload: TodoLaterThanRequest): Iterable<TodoDTO> =
+            service.getScheduledLaterThan(payload.date)
 }

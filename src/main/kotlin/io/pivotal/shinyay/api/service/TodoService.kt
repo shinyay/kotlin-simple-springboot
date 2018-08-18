@@ -1,33 +1,45 @@
 package io.pivotal.shinyay.api.service
 
 import io.pivotal.shinyay.api.data.Todo
+import io.pivotal.shinyay.api.data.TodoDTO
+import io.pivotal.shinyay.api.repository.TodoRepository
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.*
 
 @Service("Todo Service")
 class TodoService {
 
-    fun getTodo(): List<Todo> = listOf(
-            Todo(
-                    UUID.randomUUID().toString(),
-                    "My first ToDo",
-                    "This is a message for the 1st Todo",
-                    System.currentTimeMillis()
-            ),
-            Todo(
-                    UUID.randomUUID().toString(),
-                    "My second ToDo",
-                    "This is a message for the 2nd Todo",
-                    System.currentTimeMillis()
+    @Autowired
+    private lateinit var repository: TodoRepository
+
+    fun getTodos(): Iterable<TodoDTO> = repository.findAll().map { it -> TodoDTO(it) }
+
+    fun insertTodo(todo: TodoDTO): TodoDTO = TodoDTO(
+            repository.save(
+                    Todo(
+                            title = todo.title,
+                            message = todo.message,
+                            location = todo.location,
+                            schedule = todo.schedule
+                    )
             )
     )
 
-    fun insertTodo(todo: Todo): Todo{
-        todo.id = UUID.randomUUID().toString()
-        return todo
+    fun updateTodo(todoDto: TodoDTO): TodoDTO {
+        var todo = repository.findById(todoDto.id).get()
+        todo.title = todoDto.title
+        todo.message = todoDto.message
+        todo.location = todoDto.location
+        todo.schedule = todoDto.schedule
+        todo.modified = Date()
+        todo = repository.save(todo)
+        return TodoDTO(todo)
     }
 
-    fun updateTodo(todo: Todo): Boolean = true
+    fun deleteTodo(id: String) = repository.deleteById(id)
 
-    fun deleteTodo(id: String): Boolean = false
+    fun getScheduledLaterThan(date: Date): Iterable<TodoDTO> {
+        return repository.findScheduledLaterThan(date).map { it -> TodoDTO(it) }
+    }
 }

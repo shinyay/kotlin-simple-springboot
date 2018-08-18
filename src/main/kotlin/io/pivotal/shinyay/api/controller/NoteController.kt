@@ -1,6 +1,7 @@
 package io.pivotal.shinyay.api.controller
 
 import io.pivotal.shinyay.api.data.Note
+import io.pivotal.shinyay.api.data.NoteDTO
 import io.pivotal.shinyay.api.service.NoteService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
@@ -19,13 +20,13 @@ class NoteController {
     @GetMapping(
             produces = arrayOf(MediaType.APPLICATION_JSON_VALUE)
     )
-    fun getNotes() = service.getNote()
+    fun getNotes() = service.getNotes()
 
     @PutMapping(
             produces = arrayOf(MediaType.APPLICATION_JSON_VALUE),
             consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE)
     )
-    fun insertNote(@RequestBody note: Note) = service.insertNote(note)
+    fun insertNote(@RequestBody note: NoteDTO) = service.insertNote(note)
 
     @DeleteMapping(
             value = "/{id}",
@@ -37,5 +38,15 @@ class NoteController {
             produces = arrayOf(MediaType.APPLICATION_JSON_VALUE),
             consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE)
     )
-    fun updateNote(@RequestBody note : Note) = service.updateNote(note)
+    fun updateNote(@RequestBody note : NoteDTO) = service.updateNote(note)
+
+    @PostMapping(
+            value = "/by_title",
+            produces = arrayOf(MediaType.APPLICATION_JSON_VALUE),
+            consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE)
+
+    )
+    fun getTodosLaterThan(
+            @RequestBody payload: NoteFindByTitleRequest
+    ): Iterable<NoteDTO> = service.findByTitle(payload.title)
 }
