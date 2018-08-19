@@ -25,7 +25,7 @@ open class User(
         @Column(columnDefinition = "varchar(36)")
         var id: String = "",
 
-        @Column(unique = true, nullable = true)
+        @Column(unique = true, nullable = false)
         @NotNull
         @Email
         var email: String = "",
@@ -51,7 +51,7 @@ open class User(
         @UpdateTimestamp
         var modified: Date = Date()
 
-) : UserDetails{
+) : UserDetails {
 
     constructor() : this(
             "", "", "", "", "", "", true, true, true, true, Date(), Date()
@@ -61,11 +61,11 @@ open class User(
         val authorities = mutableListOf<GrantedAuthority>()
         roles
                 .split(",")
-                .forEach{ it ->
+                .forEach { it ->
                     authorities.add(
-                        SimpleGrantedAuthority(
-                                it.trim()
-                        )
+                            SimpleGrantedAuthority(
+                                    it.trim()
+                            )
                     )
                 }
         return authorities

@@ -24,25 +24,34 @@ class UserController {
             produces = arrayOf(MediaType.APPLICATION_JSON_VALUE),
             consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE)
     )
-    fun insertAdmin(@RequestBody user: UserDTO) = service.saveAdmin(user)
+    fun insertAdmin(
+            @RequestBody user: UserDTO
+    ) = service.saveAdmin(user)
 
     @PutMapping(
             value = "/member",
             produces = arrayOf(MediaType.APPLICATION_JSON_VALUE),
             consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE)
     )
-    fun insertMember(@RequestBody user: UserDTO) = service.saveMember(user)
+    fun insertMember(
+            @RequestBody user: UserDTO
+    ) = service.saveMember(user)
 
 
     @DeleteMapping(
             value = "/{id}",
             produces = arrayOf(MediaType.APPLICATION_JSON_VALUE)
     )
-    fun deleteUser(@PathVariable(name = "id") id: String) = service.deleteUser(id)
+    fun deleteUser(
+            @PathVariable(name = "id") id: String
+    ) = service.deleteUser(id)
 
     @PostMapping(
             produces = arrayOf(MediaType.APPLICATION_JSON_VALUE),
             consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE)
     )
-    fun updateUser(@RequestBody user: User): User? = service.updateUser(user)
+    fun updateUser(
+            @RequestBody user: User
+    ): User? = service.updateUser(user)
+
 }

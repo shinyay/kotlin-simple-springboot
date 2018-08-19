@@ -13,20 +13,26 @@ class WebSecurityAuthSuccessHandler : SimpleUrlAuthenticationSuccessHandler() {
 
     var requestCache = HttpSessionRequestCache()
 
-    override fun onAuthenticationSuccess(request: HttpServletRequest, response: HttpServletResponse, authentication: Authentication) {
+    override fun onAuthenticationSuccess(
+            request: HttpServletRequest,
+            response: HttpServletResponse,
+            authentication: Authentication
+    ) {
         val savedRequest = requestCache.getRequest(request, response)
-        if(savedRequest == null) {
+        if (savedRequest == null) {
             clearAuthenticationAttributes(request)
+            return
         }
         val parameter = request.getParameter(targetUrlParameter)
         val ok = isAlwaysUseDefaultTargetUrl ||
                 targetUrlParameter != null &&
                 StringUtils.hasText(parameter)
-        if(ok) {
+        if (ok) {
             requestCache.removeRequest(request, response)
             clearAuthenticationAttributes(request)
             return
         }
         clearAuthenticationAttributes(request)
     }
+
 }

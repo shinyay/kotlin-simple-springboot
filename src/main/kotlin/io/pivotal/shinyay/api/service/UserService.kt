@@ -5,11 +5,11 @@ import io.pivotal.shinyay.api.security.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Repository
 import java.util.*
 
-@Service
-class UserService: UserDetailsService {
+@Repository
+class UserService : UserDetailsService {
 
     @Autowired
     lateinit var repository: UserRepository
@@ -43,7 +43,7 @@ class UserService: UserDetailsService {
     fun updateUser(toSave: User): User? {
         val user = repository.findOneByEmail(toSave.email)
         user?.let {
-            if(!toSave.pwd.isEmpty()) {
+            if (!toSave.pwd.isEmpty()) {
                 user.pwd = encoder.encode(toSave.password)
             }
             user.firstName = toSave.firstName
