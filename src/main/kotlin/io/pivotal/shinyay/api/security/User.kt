@@ -5,13 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.GenericGenerator
 import org.hibernate.annotations.UpdateTimestamp
+import org.hibernate.validator.constraints.NotBlank
+import org.hibernate.validator.constraints.Email
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import java.util.*
 import javax.persistence.*
-import javax.validation.constraints.Email
-import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 
 @Entity
@@ -31,7 +31,7 @@ open class User(
         var email: String = "",
 
         @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-        @NotBlank
+        @NotNull
         var pwd: String = "",
 
         @NotBlank
