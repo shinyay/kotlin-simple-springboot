@@ -26,7 +26,7 @@ class NoteService {
     )
 
     fun updateNote(noteDto: NoteDTO): NoteDTO {
-        var note = repository.findById(noteDto.id).get()
+        var note = repository.findOne(noteDto.id)
         note.title = noteDto.title
         note.message = noteDto.message
         note.location = noteDto.location
@@ -35,7 +35,7 @@ class NoteService {
         return NoteDTO(note)
     }
 
-    fun deleteNote(id: String) = repository.deleteById(id)
+    fun deleteNote(id: String) = repository.delete(id)
 
     fun findByTitle(title: String): Iterable<NoteDTO> {
         return repository.findByTitle(title).map { it -> NoteDTO(it) }
