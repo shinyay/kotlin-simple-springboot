@@ -1,11 +1,13 @@
 package io.pivotal.shinyay.api
 
+import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.runApplication
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient
 
 @SpringBootApplication
+@EnableEurekaClient
 class ApiApplication
 
 fun main(args: Array<String>) {
-    runApplication<ApiApplication>(*args)
+    SpringApplication.run(ApiApplication::class.java, *args)
 }
