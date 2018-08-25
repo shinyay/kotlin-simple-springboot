@@ -8,5 +8,5 @@ import java.util.*
 interface TodoRepository : CrudRepository<Todo, String> {
 
     @Query("from Todo t where t.schedule > ?1")
-    fun findScheduledLaterThan(date: Date): Iterable<Todo>
+    fun findScheduledLaterThan(date: Long): Iterable<Todo>
 }

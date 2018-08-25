@@ -39,7 +39,10 @@ class TodoService {
 
     fun deleteTodo(id: String) = repository.delete(id)
 
-    fun getScheduledLaterThan(date: Date): Iterable<TodoDTO> {
-        return repository.findScheduledLaterThan(date).map { it -> TodoDTO(it) }
+    fun getScheduledLaterThan(date: Date?): Iterable<TodoDTO> {
+        date?.let {
+            repository.findScheduledLaterThan(date.time).map {it -> TodoDTO(it)}
+        }
+        return listOf()
     }
 }

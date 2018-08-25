@@ -9,6 +9,8 @@ data class TodoDTO(
         var location: String = ""
 ) {
 
+    constructor() : this("", "", -1, "")
+
     var id: String = ""
     var created: Date = Date()
     var modified: Date = Date()
