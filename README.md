@@ -11,4 +11,7 @@ mysql -u root -p
 create schema `journaler_api` default character set utf8 ;
 ```
 
-
+## Run Redis
+```
+$ docker run -d --name redis -p 6379:6379 redis
+```
