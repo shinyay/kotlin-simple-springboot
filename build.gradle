@@ -44,6 +44,8 @@ repositories {
 }
 
 dependencies {
+    compile 'io.projectreactor:reactor-bus:2.0.8.RELEASE'
+
 	compile('org.springframework:spring-context')
 	compile('org.springframework:spring-aop')
 	compile('org.springframework:spring-web')
